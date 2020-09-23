@@ -65,3 +65,21 @@ export async function movieExist(movieId) {
 export async function findMovieReviews(movieId) {
   return knex.select('*').from('reviews').where('movie_id', movieId);
 }
+
+export async function userByUsernameExists(username) {
+  return (
+    await knex.table('users').count('user_id', { as: 'count' }).where('username', username).first()
+  ).count;
+}
+
+export async function insertUser(username, password, name, token) {
+  const user = {
+    user_id: uuid(),
+    username,
+    password,
+    name,
+    token,
+  };
+  await knex.table('users').insert(user);
+  return user;
+}
