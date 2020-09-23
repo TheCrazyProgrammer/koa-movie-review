@@ -44,7 +44,7 @@ export async function findAllMovies() {
 }
 
 export async function findReview(reviewId) {
-  return await knex.table('reviews').where('review_id', reviewId).first();
+  return knex.table('reviews').where('review_id', reviewId).first();
 }
 
 export async function findMovie(movieId) {
@@ -59,10 +59,9 @@ export async function findMovie(movieId) {
 }
 
 export async function movieExist(movieId) {
-  return await knex.count('*').from('movies').where('movies.movie_id', movieId).first();
+  return knex.count('*').from('movies').where('movies.movie_id', movieId).first();
 }
 
 export async function findMovieReviews(movieId) {
-  const res = await knex.select('*').from('reviews').where('movie_id', movieId);
-  return res;
+  return knex.select('*').from('reviews').where('movie_id', movieId);
 }
