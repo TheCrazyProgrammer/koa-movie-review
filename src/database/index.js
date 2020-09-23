@@ -83,3 +83,11 @@ export async function insertUser(username, password, name, token) {
   await knex.table('users').insert(user);
   return user;
 }
+
+export async function findUserByUsername(username) {
+  return knex.table('users').where('username', username).first();
+}
+
+export async function findUserByToken(token) {
+  return knex.table('users').where('token', token).first();
+}
