@@ -4,6 +4,7 @@ import * as z from 'zod';
 import { nanoid } from 'nanoid';
 import bcrypt from 'bcrypt';
 import { insertUser, userByUsernameExists } from '../database';
+import { signup } from '../logic/signup';
 
 export const usersRouter = Router();
 
@@ -18,13 +19,6 @@ usersRouter.post(
   ),
   async (ctx) => {
     const { username, password, name } = ctx.request.body;
-    const alreadyExist = await userByUsernameExists(username);
-    if (alreadyExist) {
-      return ctx.throw(400, 'This username already taken');
-    }
-    const token = nanoid();
-    const passwordHashed = await bcrypt.hash(password, 10);
-    const user = await insertUser(username, passwordHashed, name, token);
-    ctx.body = user;
+    ctx.body = await signup(username, password, name);
   }
 );
