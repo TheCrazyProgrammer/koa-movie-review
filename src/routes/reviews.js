@@ -2,6 +2,7 @@ import Router from '@koa/router';
 import { movieExist, insertReview, updateMovie, findMovieReviews, updateReview } from '../database';
 import { zodBodyValidator } from '../middlewares/zodBodyValidator';
 import { zodQueryValidator } from '../middlewares/zodQueryValidator';
+import { authenticated } from '../middlewares/authenticated';
 import * as z from 'zod';
 import { allUndefined } from '../utils';
 
@@ -9,6 +10,7 @@ export const reviewsRouter = Router();
 
 reviewsRouter.post(
   '/',
+  authenticated,
   zodBodyValidator(
     z.object({
       movie_id: z.string().uuid(),
@@ -29,6 +31,7 @@ reviewsRouter.post(
 
 reviewsRouter.put(
   '/:review_id',
+  authenticated,
   zodBodyValidator(
     z.object({
       author: z.string().nonempty().optional(),
