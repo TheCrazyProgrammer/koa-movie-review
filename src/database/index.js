@@ -44,7 +44,7 @@ export async function findAllMovies() {
 }
 
 export async function findReview(reviewId) {
-  return await knex.table('reviews').where('review_id', reviewId).first();
+  return knex.table('reviews').where('review_id', reviewId).first();
 }
 
 export async function findMovie(movieId) {
@@ -59,10 +59,27 @@ export async function findMovie(movieId) {
 }
 
 export async function movieExist(movieId) {
-  return await knex.count('*').from('movies').where('movies.movie_id', movieId).first();
+  return knex.count('*').from('movies').where('movies.movie_id', movieId).first();
 }
 
 export async function findMovieReviews(movieId) {
-  const res = await knex.select('*').from('reviews').where('movie_id', movieId);
-  return res;
+  return knex.select('*').from('reviews').where('movie_id', movieId);
+}
+
+export async function userByUsernameExists(username) {
+  return (
+    await knex.table('users').count('user_id', { as: 'count' }).where('username', username).first()
+  ).count;
+}
+
+export async function insertUser(username, password, name, token) {
+  const user = {
+    user_id: uuid(),
+    username,
+    password,
+    name,
+    token,
+  };
+  await knex.table('users').insert(user);
+  return user;
 }

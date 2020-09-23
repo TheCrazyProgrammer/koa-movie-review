@@ -29,6 +29,17 @@ export async function setupDatabase() {
     });
   }
 
+  const hasUsers = await knex.schema.hasTable('users');
+  if (!hasUsers) {
+    await knex.schema.createTable('users', (usersTable) => {
+      usersTable.uuid('user_id').primary();
+      usersTable.string('username').unique().notNullable();
+      usersTable.string('token').notNullable();
+      usersTable.string('password').notNullable();
+      usersTable.string('name').notNullable();
+    });
+  }
+
   if (dbExist === false) {
     // populate with init data
     const movies = [
