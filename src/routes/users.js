@@ -1,9 +1,6 @@
 import Router from '@koa/router';
 import { zodBodyValidator } from '../middlewares/zodBodyValidator';
 import * as z from 'zod';
-import { nanoid } from 'nanoid';
-import bcrypt from 'bcrypt';
-import { insertUser, userByUsernameExists } from '../database';
 import { signup } from '../logic/signup';
 
 export const usersRouter = Router();
