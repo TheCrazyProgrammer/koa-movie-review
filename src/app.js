@@ -18,7 +18,8 @@ export async function main() {
   app.use(helmet());
   app.use(bodyparser({ enableTypes: ['json'] }));
 
-  app.use(router.routes(), router.allowedMethods());
+  app.use(router.routes());
+  app.use(router.allowedMethods());
 
   app.listen(3001, () => {
     console.log(`Server is up on http://localhost:3001`);
